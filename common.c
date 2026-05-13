@@ -1,30 +1,36 @@
-#define _CRT_SECURE_NO_WARNINGS
-#include "common.h"
 #include "common.h"
 
-// 콘솔 초기 설정
 void initSystem() {
-    // 1. 화면 크기 설정(50x30)
-    char command[50];
-    sprintf(command, "mode con: cols=%d lines=%d", SCREEN_WIDTH, SCREEN_HEIGHT);
-    system(command);
+    // 1. 한글 깨짐 방지 및 화면 초기화
+    system("chcp 65001");
+    system("cls");
 
-    // 2. 커서 숨기기
-    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO cursorInfo;
-    GetConsoleCursorInfo(consoleHandle, &cursorInfo);
-    cursorInfo.bVisible = FALSE; 
-    SetConsoleCursorInfo(consoleHandle, &cursorInfo);
+    // 2. 콘솔 창 제목 및 크기 설정
+    system("title C-Mini Game World");
+    system("mode con cols=50 lines=30");
+
+    // 3. 커서 숨기기
+    setCursorVisible(0);
+
+    // 4. 마우스 클릭 시 멈춤 방지
+    HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD prev_mode;
+    GetConsoleMode(hInput, &prev_mode);
+    SetConsoleMode(hInput, prev_mode & ~ENABLE_QUICK_EDIT_MODE);
 }
 
-// 커서 이동 함수
 void gotoxy(int x, int y) {
-    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD pos = { (SHORT)x, (SHORT)y };
-    SetConsoleCursorPosition(consoleHandle, pos);
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-// 색상 변경 함수
 void setColor(int color) {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
+void setCursorVisible(int visible) {
+    CONSOLE_CURSOR_INFO cursorInfo;
+    cursorInfo.dwSize = 10;
+    cursorInfo.bVisible = visible;
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 }

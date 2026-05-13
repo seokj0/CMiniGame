@@ -16,15 +16,51 @@
     <Filter Include="common">
       <UniqueIdentifier>{87896e12-dbfb-43b1-a644-8b3d79ded015}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Omok">
+      <UniqueIdentifier>{8b93df8b-8d27-4ff4-b81f-b57ea0fd10dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tetris">
+      <UniqueIdentifier>{55db4a5d-747a-4526-907c-75403820fcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Snake">
+      <UniqueIdentifier>{b34088f4-c508-459a-b240-fbc8edfc9b38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="omok_model.h">
+      <Filter>Omok</Filter>
+    </ClInclude>
+    <ClInclude Include="tetris_model.h">
+      <Filter>Tetris</Filter>
+    </ClInclude>
+    <ClInclude Include="snake_model.h">
+      <Filter>Snake</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="common.c">
-      <Filter>소스 파일</Filter>
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="omok_logic.c">
+      <Filter>Omok</Filter>
+    </ClCompile>
+    <ClCompile Include="omok_view.c">
+      <Filter>Omok</Filter>
+    </ClCompile>
+    <ClCompile Include="tetris_view.c">
+      <Filter>Tetris</Filter>
+    </ClCompile>
+    <ClCompile Include="tetris_logic.c">
+      <Filter>Tetris</Filter>
+    </ClCompile>
+    <ClCompile Include="snake_view.c">
+      <Filter>Snake</Filter>
+    </ClCompile>
+    <ClCompile Include="snake_logic.c">
+      <Filter>Snake</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>

@@ -3,8 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/솔루션 항목/">
-    <File Path="main.c" />
-  </Folder>
   <Project Path="cminigame.vcxproj" Id="b1bb90d2-02f7-4373-ae94-3a30c7a38975" />
 </Solution>
