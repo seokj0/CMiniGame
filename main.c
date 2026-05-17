@@ -1,5 +1,8 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include "common.h"
+
+// 다른 파일에 만들어둔 함수를 가져옴
+extern void playTetris();
 
 // 1: 테트리스, 2: 오목, 3: 스네이크, 0: 종료
 int g_selectedMenu = 1;
@@ -70,13 +73,13 @@ void drawMenu() {
 }
 
 int main() {
-
+    // 시스템 초기화
     initSystem();
 
     while (1) {
-        drawMenu(); // 메뉴 화면
+        drawMenu(); // 메뉴 화면 출력
 
-        int key = _getch(); // 키 입력
+        int key = _getch();
         // (아스키 코드, 확장 키 코드)
         // 1. 방향키 처리
         if (key == 224) {
@@ -92,11 +95,11 @@ int main() {
                 break;
             }
         }
-        // 2. 엔터키 처리 (ASCII 13)
+        // 2. 엔터키 처리
         else if (key == 13) {
             if (g_selectedMenu == 0) break; // 종료 선택시 루프 탈출
 
-            // 각 게임으로 진입
+            // 각 게임으로 진입 전 연출
             system("cls");
             gotoxy(15, 14);
             setColor(15);
@@ -104,12 +107,13 @@ int main() {
             if (g_selectedMenu == 1) {
                 printf("Entering Tetris World...");
                 Sleep(800);
-                // playTetris(); // 나중에 구현 후 작성하면 해당 페이지로 이동
+
+                playTetris();
             }
             else if (g_selectedMenu == 2) {
                 printf("Entering Omok World...");
                 Sleep(800);
-                // playOmok();
+                // playOmok(); 
             }
             else if (g_selectedMenu == 3) {
                 printf("Entering Snake World...");

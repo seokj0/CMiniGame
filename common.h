@@ -1,20 +1,20 @@
-#ifndef COMMON_H
+﻿#ifndef COMMON_H
 #define COMMON_H
 
 #include <stdio.h>
 #include <windows.h>
 #include <conio.h>
 
-// 시스템 초기화 (콘솔 크기, 커서 숨기기)
+// 시스템 초기화
 void initSystem();
 
-// 화면 좌표 이동 함수
+// 좌표 이동
 void gotoxy(int x, int y);
 
-// 텍스트 색상 변경 함수
+// 색상 변경
 void setColor(int color);
 
-// 커서 보이기/숨기기 설정
+// 커서 표시 여부
 void setCursorVisible(int visible);
 
 #endif
