@@ -1,4 +1,5 @@
-
+#include "common.h"
+#include "snake.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -110,13 +111,12 @@ int getKeyDown() {
     return -1;
 }
 
-void gotoxy(int x, int y) {
-
+void snake_gotoxy(int x, int y) {
     COORD Pos;
-
+    
     Pos.X = 2 * x;
-    Pos.Y = y;
-
+    Pos.Y = y; 
+    
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
 
@@ -132,34 +132,36 @@ void hidecursor() {
     SetConsoleCursorInfo(consoleHandle, &info);
 }
 
+
+
 int drawStartMenu() {
 
     HANDLE hand = GetStdHandle(STD_OUTPUT_HANDLE);
 
     SetConsoleTextAttribute(hand, 13);
 
-    gotoxy(DEFAULT_X, DEFAULT_Y);
+    snake_gotoxy(DEFAULT_X, DEFAULT_Y);
     printf("============================================");
 
     SetConsoleTextAttribute(hand, 14);
 
-    gotoxy(DEFAULT_X, DEFAULT_Y + 1);
+    snake_gotoxy(DEFAULT_X, DEFAULT_Y + 1);
     printf("================ Snake Game ================");
 
     SetConsoleTextAttribute(hand, 11);
 
-    gotoxy(DEFAULT_X, DEFAULT_Y + 2);
+    snake_gotoxy(DEFAULT_X, DEFAULT_Y + 2);
     printf("============================================");
 
     SetConsoleTextAttribute(hand, 15);
 
-    gotoxy(DEFAULT_X, DEFAULT_Y + 4);
+    snake_gotoxy(DEFAULT_X, DEFAULT_Y + 4);
     printf("> Key  : up, down, left, right");
 
-    gotoxy(DEFAULT_X, DEFAULT_Y + 5);
+    snake_gotoxy(DEFAULT_X, DEFAULT_Y + 5);
     printf("> Start : 's'");
 
-    gotoxy(DEFAULT_X, DEFAULT_Y + 6);
+    snake_gotoxy(DEFAULT_X, DEFAULT_Y + 6);
     printf("> Exit : 'o'");
 
     SetConsoleTextAttribute(hand, 14);
@@ -182,12 +184,12 @@ int drawStartMenu() {
             return FALSE;
         }
 
-        gotoxy(DEFAULT_X + 5, DEFAULT_Y + 10);
+        snake_gotoxy(DEFAULT_X + 5, DEFAULT_Y + 10);
         printf("-- press 's' to start --");
 
         Sleep(1000 / 3);
 
-        gotoxy(DEFAULT_X + 5, DEFAULT_Y + 10);
+        snake_gotoxy(DEFAULT_X + 5, DEFAULT_Y + 10);
         printf("                           ");
 
         Sleep(1000 / 3);
@@ -233,12 +235,12 @@ void drawMainMap(MData map[MAP_SIZE][MAP_SIZE]) {
 
             if (map[i][j] == WALL) {
 
-                gotoxy(i, j);
+                snake_gotoxy(i, j);
                 printf("#");
             }
             else if (map[i][j] == EMPTY) {
 
-                gotoxy(i, j);
+                snake_gotoxy(i, j);
                 printf(" ");
             }
         }
@@ -253,13 +255,13 @@ void drawSubMap(int score, int best) {
 
     SetConsoleTextAttribute(hand, 15);
 
-    gotoxy(DEFAULT_X, MAP_SIZE + 1);
+    snake_gotoxy(DEFAULT_X, MAP_SIZE + 1);
     printf(" Best Score : %4d", best);
 
-    gotoxy(DEFAULT_X, MAP_SIZE + 2);
+    snake_gotoxy(DEFAULT_X, MAP_SIZE + 2);
     printf(" Your Score : %4d", score);
 
-    gotoxy(DEFAULT_X + 8, MAP_SIZE + 5);
+    snake_gotoxy(DEFAULT_X + 8, MAP_SIZE + 5);
     printf("[Exit - 'o' / Pause - 'p']");
 
     SetConsoleTextAttribute(hand, 7);
@@ -287,7 +289,7 @@ int setFruit(MData map[MAP_SIZE][MAP_SIZE], FruitPos* fp) {
 
             SetConsoleTextAttribute(hand, 10);
 
-            gotoxy(i, j);
+            snake_gotoxy(i, j);
             printf("*");
 
             SetConsoleTextAttribute(hand, 7);
@@ -303,7 +305,7 @@ void setSnakeTail(MData map[MAP_SIZE][MAP_SIZE], int snake_x, int snake_y) {
 
     SetConsoleTextAttribute(hand, 14);
 
-    gotoxy(snake_x, snake_y);
+    snake_gotoxy(snake_x, snake_y);
 
     printf("0");
 
@@ -316,7 +318,7 @@ void setSnake(MData map[MAP_SIZE][MAP_SIZE], int snake_x, int snake_y) {
 
     HANDLE hand = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    gotoxy(snake_x, snake_y);
+    snake_gotoxy(snake_x, snake_y);
 
     SetConsoleTextAttribute(hand, 14);
 
@@ -329,7 +331,7 @@ void setSnake(MData map[MAP_SIZE][MAP_SIZE], int snake_x, int snake_y) {
 
 void removeSnake(MData map[MAP_SIZE][MAP_SIZE], int snake_x, int snake_y) {
 
-    gotoxy(snake_x, snake_y);
+    snake_gotoxy(snake_x, snake_y);
 
     printf(" ");
 
@@ -400,7 +402,7 @@ int moveSnakeHead(MData map[MAP_SIZE][MAP_SIZE], SnakePos* snake, int way) {
 
     if (colWithWall(map, snake, way) == TRUE) {
 
-        gotoxy(1, 1);
+        snake_gotoxy(1, 1);
 
         printf("> Hit : wall");
 
@@ -409,7 +411,7 @@ int moveSnakeHead(MData map[MAP_SIZE][MAP_SIZE], SnakePos* snake, int way) {
 
     if (colWithTail(map, snake, way) == TRUE) {
 
-        gotoxy(1, 1);
+        snake_gotoxy(1, 1);
 
         printf("> Hit : tail");
 
@@ -507,15 +509,15 @@ void GameOver(int score, int best, Queue* pq, int* scoreArr) {
 
     SetConsoleTextAttribute(hand, 14);
 
-    gotoxy(MAP_SIZE / 2 - 4, MAP_SIZE / 2 - 5);
+    snake_gotoxy(MAP_SIZE / 2 - 4, MAP_SIZE / 2 - 5);
 
     printf("===<GAME OVER>===");
 
-    gotoxy(MAP_SIZE / 2 - 3, MAP_SIZE / 2 - 3);
+    snake_gotoxy(MAP_SIZE / 2 - 3, MAP_SIZE / 2 - 3);
 
     printf("Your Score : %d", score);
 
-    gotoxy(DEFAULT_X + 8, MAP_SIZE + 5);
+    snake_gotoxy(DEFAULT_X + 8, MAP_SIZE + 5);
 
     printf("                    ");
 
@@ -529,70 +531,47 @@ void GameOver(int score, int best, Queue* pq, int* scoreArr) {
 void GameStart(MData map[MAP_SIZE][MAP_SIZE], int* scoreArr) {
 
     int best = scoreArr[0];
-
     int score = 0;
-
     int key;
-
     int savedKey = RIGHT;
-
     Queue queue;
-
     QueueInit(&queue);
-
     SnakePos snake = { MAP_SIZE / 4 - 2, MAP_SIZE / 4 + 1 };
-
     SnakePos snakeSecond;
     SnakePos snakeTail;
-
     int time = FALSE;
-
     FruitPos fruit;
-
     fruit.numOfFruit = 0;
-
     stageOneInit(map);
-
     drawMainMap(map);
-
     setSnake(map, snake.x, snake.y);
-
     while (1) {
-
         Sleep(1000 / (DWORD)NORMAL);
-
         if (fruit.numOfFruit == 0) {
             setFruit(map, &fruit);
         }
-
         drawSubMap(score, best);
-
         if (colWithFruit(&snake, &fruit) == TRUE) {
-
             fruit.numOfFruit--;
-
             time = FALSE;
-
             score += 5;
         }
 
         if (_kbhit()) {
 
             key = _getch();
-
             if (key == 'o' || key == 'O') {
                 return;
             }
-
             if (key == 'p' || key == 'P') {
 
                 system("pause");
 
-                gotoxy(DEFAULT_X, MAP_SIZE + 6);
+                snake_gotoxy(DEFAULT_X, MAP_SIZE + 6);
 
                 printf("                                            ");
 
-                gotoxy(DEFAULT_X, DEFAULT_Y);
+                snake_gotoxy(DEFAULT_X, DEFAULT_Y);
             }
 
             if (key == 224 || key == 0) {
@@ -660,7 +639,7 @@ void GameStart(MData map[MAP_SIZE][MAP_SIZE], int* scoreArr) {
     }
 }
 
-int playsnake() {
+void playSnake() {
 
     MData map[MAP_SIZE][MAP_SIZE];
 
@@ -672,7 +651,7 @@ int playsnake() {
 
     system("mode con: cols=50 lines=30");
 
-    hidecursor();
+    setCursorVisible(0);
 
     while (1) {
 
@@ -687,6 +666,4 @@ int playsnake() {
 
         system("cls");
     }
-
-    return 0;
 }
