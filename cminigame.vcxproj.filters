@@ -30,9 +30,6 @@
     <ClInclude Include="common.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="omok_model.h">
-      <Filter>Omok</Filter>
-    </ClInclude>
     <ClInclude Include="tetris_model.h">
       <Filter>Tetris</Filter>
     </ClInclude>
@@ -43,12 +40,6 @@
   <ItemGroup>
     <ClCompile Include="common.c">
       <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="omok_logic.c">
-      <Filter>Omok</Filter>
-    </ClCompile>
-    <ClCompile Include="omok_view.c">
-      <Filter>Omok</Filter>
     </ClCompile>
     <ClCompile Include="tetris_view.c">
       <Filter>Tetris</Filter>
