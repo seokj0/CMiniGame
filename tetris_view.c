@@ -1,56 +1,55 @@
 ﻿#include "common.h"
 #include "tetris_model.h"
+#include <stdio.h>
 
-// 게임판 출력
+// 테트리스 전체 판과 우측 정보창을 그리는 함수
 void drawTetrisBoard() {
 
     int startX = 4;
     int startY = 2;
+    int infoX = 0;
+    int boardTile = 0;
+    int blockColors[] = { 11, 13, 14, 9, 12, 10, 4 };
 
-    // 세로
+    infoX = startX + (BOARD_WIDTH * 2) + 8;
+
+    // 1. 게임판 출력
     for (int y = 0; y <= BOARD_HEIGHT; y++) {
 
-        // 가로
         for (int x = 0; x <= BOARD_WIDTH + 1; x++) {
 
             gotoxy(startX + x * 2, startY + y);
 
-            // 바닥
             if (y == BOARD_HEIGHT) {
 
                 setColor(7);
 
-                if (x == 0)
-                    printf("+");
-
-                else if (x == BOARD_WIDTH + 1)
-                    printf("+");
-
-                else
-                    printf("--");
+                if (x == 0) printf("+");
+                else if (x == BOARD_WIDTH + 1) printf("+");
+                else printf("--");
             }
-
-            // 좌우 벽
             else if (x == 0 || x == BOARD_WIDTH + 1) {
 
                 setColor(7);
-
                 printf("||");
             }
-
-            // 내부
             else {
 
-                setColor(8);
+                boardTile = g_board[y][x - 1];
 
-                printf(". ");
+                if (boardTile > 0) {
+                    setColor(blockColors[boardTile - 1]);
+                    printf("[]");
+                }
+                else {
+                    setColor(8);
+                    printf(". ");
+                }
             }
         }
     }
 
-    // 블럭 미리보기
-    int infoX = startX + (BOARD_WIDTH * 2) + 8;
-
+    // 2. 정보창
     setColor(15);
 
     gotoxy(infoX, startY);
@@ -60,72 +59,100 @@ void drawTetrisBoard() {
     printf("+----------+");
 
     for (int i = 1; i <= 4; i++) {
-
         gotoxy(infoX - 2, startY + 1 + i);
-
         printf("|          |");
     }
 
     gotoxy(infoX - 2, startY + 6);
-
     printf("+----------+");
 
-    // 조작 설명
+    // 3. 조작법
     setColor(7);
 
     gotoxy(infoX, startY + 9);
-    printf("  o    메인메뉴");
+    printf("  0    메인메뉴");
 
     gotoxy(infoX, startY + 11);
     printf("<- ->  이동");
 
     gotoxy(infoX, startY + 13);
-    printf("  V    설치");
+    printf("  V    하강");
 
     gotoxy(infoX, startY + 15);
     printf("Space  회전");
 }
 
-// 다음 블록 출력
+// NEXT 블럭 출력
 void drawNextBlock() {
 
     int startX = 4;
     int startY = 2;
-
     int boxInnerX = startX + (BOARD_WIDTH * 2) + 8;
     int boxInnerY = startY + 2;
+    int isBlock = 0;
+    int blockColors[] = { 11, 13, 14, 9, 12, 10, 4 };
 
-    // 박스 내부 초기화
     for (int y = 0; y < 4; y++) {
-
         gotoxy(boxInnerX, boxInnerY + y);
-
         printf("        ");
     }
 
-    // 블록 색상
-    int blockColors[] = {
-        11, 13, 14,
-        9, 12, 10, 4
-    };
-
     setColor(blockColors[g_nextBlockType]);
 
-    // 블록 출력
     for (int y = 0; y < 4; y++) {
 
         gotoxy(boxInnerX, boxInnerY + y);
 
         for (int x = 0; x < 4; x++) {
 
-            int isBlock =
-                g_blocks[g_nextBlockType][y][x];
+            isBlock = g_blocks[g_nextBlockType][y][x];
 
             if (isBlock == 1)
                 printf("[]");
-
             else
                 printf("  ");
+        }
+    }
+}
+
+// 현재 블럭 출력
+void drawCurrentBlock() {
+
+    int startX = 4;
+    int startY = 2;
+    int isBlock;
+    int rotX, rotY;
+    int targetX, targetY;
+    int blockColors[] = { 11, 13, 14, 9, 12, 10, 4 };
+
+    setColor(blockColors[g_currentBlockType]);
+
+    for (int y = 0; y < 4; y++) {
+
+        for (int x = 0; x < 4; x++) {
+
+            rotX = x;
+            rotY = y;
+
+            if (g_currentRotation == 1) { rotX = y; rotY = 3 - x; }
+            else if (g_currentRotation == 2) { rotX = 3 - x; rotY = 3 - y; }
+            else if (g_currentRotation == 3) { rotX = 3 - y; rotY = x; }
+
+            isBlock = g_blocks[g_currentBlockType][rotY][rotX];
+
+            if (isBlock == 1) {
+
+                targetX = startX + (g_blockX + x + 1) * 2;
+                targetY = startY + (g_blockY + y);
+
+                if (g_blockX + x >= 0 &&
+                    g_blockX + x < BOARD_WIDTH &&
+                    g_blockY + y < BOARD_HEIGHT) {
+
+                    gotoxy(targetX, targetY);
+                    printf("[]");
+                }
+            }
         }
     }
 }

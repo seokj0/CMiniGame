@@ -65,6 +65,9 @@
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="tetris_model.c">
+      <Filter>Tetris</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

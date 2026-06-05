@@ -141,6 +141,7 @@
     <ClCompile Include="snake_logic.c" />
     <ClCompile Include="snake_view.c" />
     <ClCompile Include="tetris_logic.c" />
+    <ClCompile Include="tetris_model.c" />
     <ClCompile Include="tetris_view.c" />
   </ItemGroup>
   <ItemGroup>
